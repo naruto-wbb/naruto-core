@@ -1,0 +1,49 @@
+apply from: 'config.gradle'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api rootProject.ext.kotlin
+    api rootProject.ext.appcompat
+    api rootProject.ext.core_ktx
+    api rootProject.ext.kotlinx_coroutines
+    api rootProject.ext.glide
+    annotationProcessor rootProject.ext.glide_compiler
+    implementation rootProject.ext.gson
+    implementation rootProject.ext.okhttp
+    implementation rootProject.ext.okhttp_logging
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.retrofit_converter_gson
+
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.junit_ext
+    androidTestImplementation rootProject.ext.espresso_core
+}
