@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">core</string>
+
+
+    <!-- 登录过期 -->
+    <string name="error_code_1001">登录过期</string>
+
+    <!-- 通用异常 -->
+    <string name="error_system_busy">系统繁忙，请重试</string>
+    <string name="error_system_busy_format">系统繁忙，请重试%s</string>
+    <string name="error_connection_timeout">连接超时，请重试</string>
+    <string name="error_network_disable">网络错误，请重试 : UNKNOWN_HOST</string>
 </resources>

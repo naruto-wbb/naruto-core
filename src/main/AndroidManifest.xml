@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.naruto.core" />
+<manifest package="com.naruto.core" />

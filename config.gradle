@@ -22,6 +22,6 @@ ext {
     gson = 'com.google.code.gson:gson:2.8.5'
     okhttp = 'com.squareup.okhttp3:okhttp:3.14.1'
     okhttp_logging = 'com.squareup.okhttp3:logging-interceptor:3.14.1'
-    retrofit = 'com.squareup.retrofit2:retrofit:2.5.0'
-    retrofit_converter_gson = 'com.squareup.retrofit2:converter-gson:2.5.0'
+    retrofit = 'com.squareup.retrofit2:retrofit:2.7.0'
+    retrofit_converter_gson = 'com.squareup.retrofit2:converter-gson:2.7.0'
 }
