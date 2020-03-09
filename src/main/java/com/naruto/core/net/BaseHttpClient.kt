@@ -1,6 +1,10 @@
 package com.naruto.core.net
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.naruto.core.BuildConfig
+import com.naruto.core.base.app
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,6 +20,12 @@ abstract class BaseHttpClient {
                 logging.level = HttpLoggingInterceptor.Level.BODY
                 builder.addInterceptor(logging)
             }
+            builder.cookieJar(
+                PersistentCookieJar(
+                    SetCookieCache(),
+                    SharedPrefsCookiePersistor(app)
+                )
+            )
             handleOkHttp(builder)
             return builder.build()
         }

@@ -1,5 +1,6 @@
 package com.naruto.core
 
+import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 
@@ -20,5 +21,10 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.naruto.core.test", appContext.packageName)
+    }
+
+    @Test
+    fun test() {
+        Log.e("2333", "2333")
     }
 }

@@ -17,7 +17,6 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
         super.onCreate(savedInstanceState)
 
         setContentView(getLayout())
-        processData()
         initView()
         initData()
     }
@@ -29,10 +28,6 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
     }
 
     abstract fun getLayout(): Int
-    /**
-     * 处理Intent中data数据
-     */
-    fun processData() {}
 
     abstract fun initView()
     abstract fun initData()

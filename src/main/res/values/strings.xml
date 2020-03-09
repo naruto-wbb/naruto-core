@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">core</string>
-
 
     <!-- 登录过期 -->
     <string name="error_code_1001">登录过期</string>
