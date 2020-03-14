@@ -5,7 +5,6 @@ import com.google.gson.JsonParseException
 import com.naruto.core.R
 import com.naruto.core.base.app
 import com.naruto.core.base.bean.BaseResponse
-import com.naruto.core.base.getString
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import retrofit2.HttpException
@@ -19,7 +18,7 @@ import javax.net.ssl.SSLHandshakeException
  */
 object ExceptionHandle {
 
-    private const val UNAUTHORIZED = 401
+    const val UNAUTHORIZED = 401
     private const val FORBIDDEN = 403
     private const val NOT_FOUND = 404
     private const val REQUEST_TIMEOUT = 408
@@ -27,19 +26,6 @@ object ExceptionHandle {
     private const val BAD_GATEWAY = 502
     private const val SERVICE_UNAVAILABLE = 503
     private const val GATEWAY_TIMEOUT = 504
-
-    /**
-     * 服务端返回code异常
-     */
-    fun <T : Any> checkError(code: Int, serverMsg: String): BaseResponse<T> {
-        return when (code) {
-            ERROR.VERIFY ->
-                getCodeError(code, getString(R.string.error_code_1001))
-            ERROR.SHOW_TOAST_TO_MSG ->  // 全局通用异常 服务端抛出该异常后 展示服务端msg作为吐司
-                getCodeError(code, serverMsg)
-            else -> handleException(Throwable())
-        }
-    }
 
     /**
      * HTTP请求异常或其他网络请求发起前和请求返回后未知异常
@@ -51,46 +37,43 @@ object ExceptionHandle {
                     UNAUTHORIZED, FORBIDDEN, NOT_FOUND, REQUEST_TIMEOUT, GATEWAY_TIMEOUT, INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE ->
                         getCodeError(
                             ERROR.HTTP_ERROR,
-                            getString(
-                                R.string.error_system_busy_format,
-                                " : HTTP_ERROR ${e.code()}"
-                            )
+                            app.getString(R.string.error_system_busy)
                         )
                     else -> getCodeError(
                         ERROR.HTTP_ERROR,
-                        getString(R.string.error_system_busy_format, " : HTTP_ERROR")
+                        app.getString(R.string.error_system_busy)
                     )
                 }
             }
             is JsonParseException, is JSONException, is ParseException -> {
                 getCodeError(
                     ERROR.PARSE_ERROR,
-                    getString(R.string.error_system_busy_format, " : PARSE_ERROR")
+                    app.getString(R.string.error_system_busy)
                 )
             }
             is ConnectException -> {
                 getCodeError(
                     ERROR.NETWORK_ERROR,
-                    getString(R.string.error_system_busy_format, " : NETWORK_ERROR")
+                    app.getString(R.string.error_system_busy)
                 )
             }
             is SSLHandshakeException -> {
                 getCodeError(
                     ERROR.SSL_ERROR,
-                    getString(R.string.error_system_busy_format, " : SSL_ERROR")
+                    app.getString(R.string.error_system_busy)
                 )
             }
             is ConnectTimeoutException -> {
-                getCodeError(ERROR.TIMEOUT_ERROR, getString(R.string.error_connection_timeout))
+                getCodeError(ERROR.TIMEOUT_ERROR, app.getString(R.string.error_connection_timeout))
             }
             is SocketTimeoutException -> {
-                getCodeError(ERROR.TIMEOUT_ERROR, getString(R.string.error_connection_timeout))
+                getCodeError(ERROR.TIMEOUT_ERROR, app.getString(R.string.error_connection_timeout))
             }
             is UnknownHostException -> {
-                getCodeError(ERROR.UNKNOWN_HOST, getString(R.string.error_network_disable))
+                getCodeError(ERROR.UNKNOWN_HOST, app.getString(R.string.error_network_disable))
             }
             else -> {
-                getCodeError(ERROR.UNKNOWN, getString(R.string.error_system_busy))
+                getCodeError(ERROR.UNKNOWN, app.getString(R.string.error_system_busy))
             }
         }
     }

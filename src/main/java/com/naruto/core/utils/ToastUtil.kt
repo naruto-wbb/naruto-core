@@ -1,6 +1,5 @@
 package com.naruto.core.utils
 
-import android.content.Context
 import android.os.Build
 import android.os.Handler
 import android.os.Message
@@ -13,12 +12,14 @@ object ToastUtil {
     private var sField_TN: Field? = null
     private var sField_TN_Handler: Field? = null
 
-    fun showLong(text: String?) {
-        showLong(app, text)
+
+    fun showLong(textRes: Int) {
+        showLong(app.getString(textRes))
     }
 
-    fun showLong(context: Context?, text: String?) {
-        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG)
+    fun showLong(text: String?) {
+        val toast = Toast.makeText(app, text, Toast.LENGTH_LONG)
+        toast.setText(text)
         // 修复7.1.1 Toast WindowManager$BadTokenException 错误
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N_MR1) {
             hookHandler(toast)

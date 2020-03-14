@@ -11,13 +11,17 @@ import kotlinx.coroutines.cancel
  * Activity基类
  */
 @ExperimentalCoroutinesApi
-abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
+    CoroutineScope by MainScope() {
+
+    lateinit var mViewModel: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(getLayout())
         initView()
+        initViewModel()
         initData()
     }
 
@@ -28,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
     }
 
     abstract fun getLayout(): Int
-
+    abstract fun initViewModel()
     abstract fun initView()
     abstract fun initData()
 }
