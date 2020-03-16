@@ -2,15 +2,21 @@ package com.naruto.core.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Build
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.naruto.core.R
 import com.naruto.core.base.app
 import timber.log.Timber
 
@@ -19,6 +25,24 @@ object UIUtil {
     const val TRANSPARENT_LOADING = -1
 
     var defaultResId: Int = TRANSPARENT_LOADING
+
+
+    /**
+     * 隐藏软键盘
+     */
+    fun hideInput(context: Activity?) {
+        val imm = context?.getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+        val view = context?.window?.peekDecorView()
+        imm?.let {
+            it.hideSoftInputFromWindow(view!!.windowToken, 0);
+        }
+    }
+
+    fun dp2px(dpValue: Double): Int {
+        val scale = app.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
+    }
+
 
     /**
      * 获取glide加载配置
@@ -68,6 +92,22 @@ object UIUtil {
             }
         }
         return iv
+    }
+
+    /**
+     * 设置列表空视图
+     */
+    fun setEmptyView(layoutId: Int, mAdapter: BaseQuickAdapter<*, *>, text: String?) {
+        try {
+            val emptyView = LayoutInflater.from(app).inflate(layoutId, null)
+            if (!text.isNullOrBlank()) {
+                val tv_empty_hint = emptyView.findViewById<TextView>(R.id.tv_empty)
+                tv_empty_hint?.text = text
+            }
+            mAdapter.setEmptyView(emptyView)
+        } catch (e: OutOfMemoryError) {
+        } catch (e: Exception) {
+        }
     }
 
     fun getStatusBarHeight(): Int {

@@ -20,9 +20,13 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         setContentView(getLayout())
-        initView()
         initViewModel()
+        setBaseViewModel(this::mViewModel.isInitialized)
+        initView()
         initData()
+    }
+
+    protected open fun setBaseViewModel(initialized: Boolean) {
     }
 
     @ExperimentalCoroutinesApi
