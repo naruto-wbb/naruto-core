@@ -46,7 +46,7 @@ object JsonUtils {
         return listOf(*array)
     }
 
-    fun <T> json2List(json: String, cls: Class<T>): List<T> {
+    fun <T> json2List(json: String, cls: Class<T>): MutableList<T> {
         val list: MutableList<T> = ArrayList()
         val array = JsonParser().parse(json).asJsonArray
         for (elem in array) {
@@ -55,7 +55,7 @@ object JsonUtils {
         return list
     }
 
-    fun <T> json2List(json: String, type: Type): List<T> {
+    fun <T> json2List(json: String, type: Type): MutableList<T> {
         val list: MutableList<T> = ArrayList()
         val array = JsonParser().parse(json).asJsonArray
         for (elem in array) {

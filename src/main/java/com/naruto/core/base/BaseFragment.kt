@@ -35,7 +35,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
         }
     }
 
-    abstract fun initViewModel()
+    open fun initViewModel() {}
     abstract fun initData()
     abstract fun initView()
     abstract fun getLayout(): Int
