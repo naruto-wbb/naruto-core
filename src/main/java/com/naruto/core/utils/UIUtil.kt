@@ -1,6 +1,7 @@
 package com.naruto.core.utils
 
 import android.app.Activity
+import android.content.ClipData
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Build
@@ -11,6 +12,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -19,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.naruto.core.R
 import com.naruto.core.base.app
 import timber.log.Timber
+
 
 object UIUtil {
 
@@ -43,6 +46,10 @@ object UIUtil {
         return (dpValue * scale + 0.5f).toInt()
     }
 
+
+    fun getScreenWith(): Int {
+        return app.resources.displayMetrics.widthPixels
+    }
 
     /**
      * 获取glide加载配置
@@ -80,9 +87,7 @@ object UIUtil {
                             is Context -> Glide.with(obj)
                             else -> throw IllegalArgumentException("Glide with( context or fragment ) ")
                         }
-                        requestManager.load(imgUrl)
-                            .apply(options)
-                            .into(iv)
+                        requestManager.load(imgUrl).apply(options).into(iv)
                     } catch (e: Exception) {
                         iv.setImageDrawable(app.resources.getDrawable(defaultResId))
                     }
@@ -116,8 +121,7 @@ object UIUtil {
             val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
             resources.getDimensionPixelSize(resourceId)
         } catch (e: Exception) {
-            Timber.e("getStatusBarHeight error = $e")
-            0
+            dp2px(25.0)
         }
     }
 
@@ -147,5 +151,10 @@ object UIUtil {
                 Timber.e(e)
             }
         }
+    }
+
+    fun copy(text: String) {
+        val mClipData = ClipData.newPlainText("Label", text)
+        Ext.clipboardManager.setPrimaryClip(mClipData)
     }
 }

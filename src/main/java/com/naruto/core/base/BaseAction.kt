@@ -1,6 +1,7 @@
 package com.naruto.core.base
 
-val DEFAULT_REQUEST_ID = 0
+const val DEFAULT_REQUEST_ID = -1
+
 data class BaseAction(var action: Int) {
 
     var mRequestId: Int = DEFAULT_REQUEST_ID

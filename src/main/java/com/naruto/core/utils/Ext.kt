@@ -21,6 +21,17 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.naruto.core.base.app
 import com.naruto.core.utils.DoubleClickLock.isBeyondClickInterval
+import java.lang.Exception
+import java.text.DecimalFormat
+
+fun Double.trimZero(): String {
+    return try {
+        val decimalFormat = DecimalFormat("###################.###########")
+        decimalFormat.format(this)
+    } catch (ignore: Exception) {
+        "0"
+    }
+}
 
 object Ext {
 

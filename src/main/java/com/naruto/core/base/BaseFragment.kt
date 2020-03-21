@@ -35,6 +35,10 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
         }
     }
 
+    fun isViewModelInitialized(): Boolean {
+        return this::mViewModel.isInitialized
+    }
+
     open fun initViewModel() {}
     abstract fun initData()
     abstract fun initView()
