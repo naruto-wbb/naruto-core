@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Color
 import android.os.Build
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -12,7 +13,6 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -26,9 +26,6 @@ import timber.log.Timber
 object UIUtil {
 
     const val TRANSPARENT_LOADING = -1
-
-    var defaultResId: Int = TRANSPARENT_LOADING
-
 
     /**
      * 隐藏软键盘
@@ -55,10 +52,11 @@ object UIUtil {
      * 获取glide加载配置
      */
     fun getGlideOption(
-        skipMemoryCache: Boolean = false
+//        skipMemoryCache: Boolean = false,
+        defaultResId: Int = TRANSPARENT_LOADING
     ): RequestOptions {
         val diskCacheStrategy = RequestOptions()
-            .skipMemoryCache(skipMemoryCache)
+//            .skipMemoryCache(skipMemoryCache)
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 
         if (defaultResId != TRANSPARENT_LOADING) {
@@ -74,12 +72,13 @@ object UIUtil {
         obj: Any?,
         iv: ImageView?,
         imgUrl: String?,
-        skipMemoryCache: Boolean = false
+//        skipMemoryCache: Boolean = false,
+        defaultResId: Int = TRANSPARENT_LOADING
     ): ImageView? {
         if (obj is Fragment? || obj is Context?) {
             if (iv != null) {
                 if (!TextUtils.isEmpty(imgUrl) && obj != null) {
-                    val options = getGlideOption(skipMemoryCache)
+                    val options = getGlideOption(defaultResId)
 
                     try {
                         val requestManager = when (obj) {
@@ -102,14 +101,14 @@ object UIUtil {
     /**
      * 设置列表空视图
      */
-    fun setEmptyView(layoutId: Int, mAdapter: BaseQuickAdapter<*, *>, text: String?) {
+    fun setEmptyView(layoutId: Int, mAdapter: BaseQuickAdapter<*, *>?, text: String?) {
         try {
             val emptyView = LayoutInflater.from(app).inflate(layoutId, null)
             if (!text.isNullOrBlank()) {
                 val tv_empty_hint = emptyView.findViewById<TextView>(R.id.tv_empty)
                 tv_empty_hint?.text = text
             }
-            mAdapter.setEmptyView(emptyView)
+            mAdapter?.setEmptyView(emptyView)
         } catch (e: OutOfMemoryError) {
         } catch (e: Exception) {
         }
@@ -125,13 +124,17 @@ object UIUtil {
         }
     }
 
-    fun setImmerseLayout(context: Activity) {// view为标题栏
+    fun setImmerseLayout(context: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val window = context.window
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                context.window.clearFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
+                )
                 context.window.decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                context.window.statusBarColor = Color.TRANSPARENT
             }
         }
     }

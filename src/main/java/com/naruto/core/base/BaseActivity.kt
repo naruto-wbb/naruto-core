@@ -19,7 +19,7 @@ abstract class BaseActivity<T : BaseViewModel> : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(getLayout())
+        if (getLayout() > 0) setContentView(getLayout())
         initViewModel()
         setBaseViewModel(this::mViewModel.isInitialized)
         initView()
