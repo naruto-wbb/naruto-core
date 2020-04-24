@@ -45,7 +45,6 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.7.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
     api 'androidx.recyclerview:recyclerview:1.1.0'
 
